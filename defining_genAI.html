@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defining Generative AI | Interactive Guide for Educators</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ai-outer: #1a1a2e;
+            --ai-color: #4361ee;
+            --ml-color: #3a0ca3;
+            --dl-color: #7209b7;
+            --genai-color: #f72585;
+            --text-light: #ffffff;
+            --text-muted: #b8c1ec;
+            --bg-dark: #0f0e17;
+            --accent-glow: rgba(247, 37, 133, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-dark);
+            min-height: 100vh;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(67, 97, 238, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(114, 9, 183, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(247, 37, 133, 0.1) 0%, transparent 50%);
+            animation: bgPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--ai-color), var(--genai-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (max-width: 1000px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Interactive Circles */
+        .circles-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid transparent;
+        }
+
+        .circle:hover {
+            transform: scale(1.03);
+        }
+
+        .circle.active {
+            border-color: white;
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .circle-ai {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(145deg, var(--ai-color) 0%, #2d4a9e 100%);
+        }
+
+        .circle-ml {
+            width: 78%;
+            height: 78%;
+            top: 16%;
+            left: 11%;
+            background: linear-gradient(145deg, var(--ml-color) 0%, #2a0880 100%);
+        }
+
+        .circle-dl {
+            width: 56%;
+            height: 56%;
+            top: 30%;
+            left: 22%;
+            background: linear-gradient(145deg, var(--dl-color) 0%, #5a078f 100%);
+        }
+
+        .circle-genai {
+            width: 34%;
+            height: 34%;
+            top: 44%;
+            left: 33%;
+            background: linear-gradient(145deg, var(--genai-color) 0%, #c91c6b 100%);
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(247, 37, 133, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(247, 37, 133, 0.7); }
+        }
+
+        .circle-label {
+            position: absolute;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .label-ai {
+            top: 4%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(1rem, 2vw, 1.4rem);
+        }
+
+        .label-ml {
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+        }
+
+        .label-dl {
+            top: 34%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(0.8rem, 1.6vw, 1.1rem);
+        }
+
+        .label-genai {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(0.8rem, 1.6vw, 1.1rem);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 35px;
+            border: 1px solid rgba(255,255,255,0.1);
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: all 0.4s ease;
+        }
+
+        .info-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .info-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 3px;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-definition {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            color: var(--text-muted);
+        }
+
+        .info-section-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .example-tag {
+            background: rgba(255,255,255,0.05);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .example-tag:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tool-badge {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.2), rgba(247, 37, 133, 0.2));
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Navigation Dots */
+        .nav-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .nav-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.2);
+        }
+
+        .nav-dot.active {
+            transform: scale(1.3);
+            border-color: white;
+        }
+
+        .dot-ai { background: var(--ai-color); }
+        .dot-ml { background: var(--ml-color); }
+        .dot-dl { background: var(--dl-color); }
+        .dot-genai { background: var(--genai-color); }
+
+        /* 2025 Updates Banner */
+        .updates-banner {
+            margin-top: 40px;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.15), rgba(247, 37, 133, 0.15));
+            border-radius: 20px;
+            padding: 25px 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .updates-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .year-badge {
+            background: var(--genai-color);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .updates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .update-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .update-bullet {
+            color: var(--genai-color);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--genai-color);
+            text-decoration: none;
+        }
+
+        /* Keyboard hint */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(26, 26, 46, 0.9);
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .key {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 0 3px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1>Defining Generative AI</h1>
+            <p>Click each layer to explore how AI technologies build upon one another—from broad artificial intelligence to the creative power of generative models.</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Interactive Circles -->
+            <div class="circles-container">
+                <div class="circle circle-ai" data-layer="ai" onclick="selectLayer('ai')"></div>
+                <div class="circle circle-ml" data-layer="ml" onclick="selectLayer('ml')"></div>
+                <div class="circle circle-dl" data-layer="dl" onclick="selectLayer('dl')"></div>
+                <div class="circle circle-genai" data-layer="genai" onclick="selectLayer('genai')"></div>
+                <!-- Labels rendered last so they appear on top -->
+                <span class="circle-label label-ai">Artificial Intelligence</span>
+                <span class="circle-label label-ml">Machine Learning</span>
+                <span class="circle-label label-dl">Deep Learning</span>
+                <span class="circle-label label-genai">Generative<br>AI</span>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="info-panel">
+                <div class="info-header">
+                    <div class="info-icon" id="infoIcon">🧠</div>
+                    <div>
+                        <div class="info-title" id="infoTitle">Artificial Intelligence</div>
+                        <div class="info-subtitle" id="infoSubtitle">The broadest category</div>
+                    </div>
+                </div>
+                <div class="info-content">
+                    <p class="info-definition" id="infoDefinition">
+                        The theory and methods to build machines that think and act like humans. AI encompasses any technique that enables computers to mimic human intelligence—from simple rule-based systems to complex neural networks.
+                    </p>
+                    
+                    <div class="info-section-title">Key Applications</div>
+                    <div class="examples-grid" id="examplesGrid">
+                        <div class="example-tag">Virtual Assistants</div>
+                        <div class="example-tag">Autonomous Vehicles</div>
+                        <div class="example-tag">Recommendation Systems</div>
+                        <div class="example-tag">Expert Systems</div>
+                    </div>
+
+                    <div class="info-section-title">Tools & Technologies</div>
+                    <div class="tools-list" id="toolsList">
+                        <span class="tool-badge">Siri</span>
+                        <span class="tool-badge">Alexa</span>
+                        <span class="tool-badge">Tesla Autopilot</span>
+                        <span class="tool-badge">IBM Watson</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Dots -->
+        <div class="nav-dots">
+            <div class="nav-dot dot-ai active" onclick="selectLayer('ai')" title="Artificial Intelligence"></div>
+            <div class="nav-dot dot-ml" onclick="selectLayer('ml')" title="Machine Learning"></div>
+            <div class="nav-dot dot-dl" onclick="selectLayer('dl')" title="Deep Learning"></div>
+            <div class="nav-dot dot-genai" onclick="selectLayer('genai')" title="Generative AI"></div>
+        </div>
+
+        <!-- 2025 Updates Banner -->
+        <div class="updates-banner">
+            <div class="updates-title">
+                <span class="year-badge">2025</span>
+                Key Advancements in Generative AI
+            </div>
+            <div class="updates-grid">
+                <div class="update-item">
+                    <span class="update-bullet">→</span>
+                    <span><strong>Cross-modal generation:</strong> Creating content across text, image, audio, and video from single prompts</span>
+                </div>
+                <div class="update-item">
+                    <span class="update-bullet">→</span>
+                    <span><strong>Enhanced reasoning:</strong> Better problem-solving for complex educational tasks</span>
+                </div>
+                <div class="update-item">
+                    <span class="update-bullet">→</span>
+                    <span><strong>Real-time processing:</strong> Faster response times for immediate classroom applications</span>
+                </div>
+                <div class="update-item">
+                    <span class="update-bullet">→</span>
+                    <span><strong>Multimodal foundation models:</strong> GPT-4o, Claude 4, Gemini 2.0 processing multiple data types</span>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Interactive Resource for Higher Education Faculty & Instructional Designers</p>
+            <p style="margin-top: 8px;">Adapted from <a href="https://aiforeducation.io" target="_blank">aiforeducation.io</a> | Updated January 2025</p>
+        </footer>
+    </div>
+
+    <div class="keyboard-hint">
+        Use <span class="key">←</span> <span class="key">→</span> arrows or <span class="key">1</span>-<span class="key">4</span> to navigate
+    </div>
+
+    <script>
+        const layerData = {
+            ai: {
+                icon: '🧠',
+                title: 'Artificial Intelligence',
+                subtitle: 'The broadest category',
+                color: '#4361ee',
+                definition: 'The theory and methods to build machines that think and act like humans. AI encompasses any technique that enables computers to mimic human intelligence—from simple rule-based systems to complex neural networks. It includes decision-making, problem-solving, and understanding language.',
+                examples: ['Virtual Assistants', 'Autonomous Vehicles', 'Recommendation Systems', 'Expert Systems', 'Predictive Analytics', 'Robotics'],
+                tools: ['Siri', 'Alexa', 'Tesla Autopilot', 'IBM Watson', 'Google Search']
+            },
+            ml: {
+                icon: '📊',
+                title: 'Machine Learning',
+                subtitle: 'A subset of AI',
+                color: '#3a0ca3',
+                definition: 'The ability for computers to learn from experience or data without being explicitly programmed. ML algorithms identify patterns in data and improve their performance over time. Instead of following rigid rules, these systems adapt based on the examples they\'re trained on.',
+                examples: ['Spam Detection', 'Credit Scoring', 'Disease Prediction', 'Fraud Detection', 'Demand Forecasting', 'Personalization'],
+                tools: ['Scikit-learn', 'TensorFlow', 'Netflix Recommendations', 'Spotify Discover', 'Amazon Product Suggestions']
+            },
+            dl: {
+                icon: '🔮',
+                title: 'Deep Learning',
+                subtitle: 'Advanced ML with neural networks',
+                color: '#7209b7',
+                definition: 'Mimics the human brain using artificial neural networks with multiple layers (hence "deep") to allow computers to perform complex tasks. Deep learning excels at processing unstructured data like images, audio, and text, automatically discovering features without manual programming.',
+                examples: ['Image Recognition', 'Speech-to-Text', 'Language Translation', 'Medical Imaging', 'Self-Driving Cars', 'Facial Recognition'],
+                tools: ['PyTorch', 'Keras', 'Google Translate', 'Face ID', 'Radiology AI', 'Voice Assistants']
+            },
+            genai: {
+                icon: '✨',
+                title: 'Generative AI',
+                subtitle: 'The creative frontier',
+                color: '#f72585',
+                definition: 'Generates new text, audio, images, video, code, and 3D models based on content it has been pre-trained on. Unlike traditional AI that analyzes or classifies, Generative AI creates original content that didn\'t exist before—revolutionizing how educators can develop learning materials.',
+                examples: ['Text Generation', 'Image Creation', 'Music Composition', 'Video Synthesis', 'Code Writing', 'Lesson Planning'],
+                tools: ['ChatGPT-4o', 'Claude 4', 'Gemini 2.0', 'DALL·E 3', 'Midjourney', 'Sora', 'Suno', 'GitHub Copilot']
+            }
+        };
+
+        const layers = ['ai', 'ml', 'dl', 'genai'];
+        let currentIndex = 0;
+
+        function selectLayer(layer) {
+            currentIndex = layers.indexOf(layer);
+            const data = layerData[layer];
+
+            // Update circles
+            document.querySelectorAll('.circle').forEach(c => c.classList.remove('active'));
+            document.querySelector(`[data-layer="${layer}"]`).classList.add('active');
+
+            // Update nav dots
+            document.querySelectorAll('.nav-dot').forEach(d => d.classList.remove('active'));
+            document.querySelector(`.dot-${layer}`).classList.add('active');
+
+            // Update info panel with animation
+            const infoPanel = document.querySelector('.info-panel');
+            infoPanel.style.opacity = '0';
+            infoPanel.style.transform = 'translateY(10px)';
+
+            setTimeout(() => {
+                document.getElementById('infoIcon').textContent = data.icon;
+                document.getElementById('infoIcon').style.background = `linear-gradient(135deg, ${data.color}, ${data.color}88)`;
+                document.getElementById('infoTitle').textContent = data.title;
+                document.getElementById('infoSubtitle').textContent = data.subtitle;
+                document.getElementById('infoDefinition').textContent = data.definition;
+
+                // Update examples
+                const examplesGrid = document.getElementById('examplesGrid');
+                examplesGrid.innerHTML = data.examples.map(ex => 
+                    `<div class="example-tag">${ex}</div>`
+                ).join('');
+
+                // Update tools
+                const toolsList = document.getElementById('toolsList');
+                toolsList.innerHTML = data.tools.map(tool => 
+                    `<span class="tool-badge">${tool}</span>`
+                ).join('');
+
+                infoPanel.style.opacity = '1';
+                infoPanel.style.transform = 'translateY(0)';
+            }, 150);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                currentIndex = (currentIndex + 1) % layers.length;
+                selectLayer(layers[currentIndex]);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                currentIndex = (currentIndex - 1 + layers.length) % layers.length;
+                selectLayer(layers[currentIndex]);
+            } else if (e.key >= '1' && e.key <= '4') {
+                selectLayer(layers[parseInt(e.key) - 1]);
+            }
+        });
+
+        // Initialize with smooth transition
+        document.querySelector('.info-panel').style.transition = 'all 0.3s ease';
+
+        // Auto-advance demo mode (optional - uncomment to enable)
+        // setInterval(() => {
+        //     currentIndex = (currentIndex + 1) % layers.length;
+        //     selectLayer(layers[currentIndex]);
+        // }, 5000);
+    </script>
+</body>
+</html>
