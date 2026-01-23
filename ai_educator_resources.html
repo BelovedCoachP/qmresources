@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools & Voice Interaction for Educators</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --text-light: #ffffff;
+            --text-muted: #94a3b8;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-dark);
+            min-height: 100vh;
+            color: var(--text-light);
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse at 0% 100%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 25px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: clamp(1.6rem, 4vw, 2.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            border-color: rgba(255,255,255,0.2);
+            color: var(--text-light);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .tool-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .tool-tagline {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .tool-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .tool-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .feature-tag {
+            background: rgba(255,255,255,0.05);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .tool-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .tool-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .tool-link:hover {
+            color: var(--secondary);
+        }
+
+        .price-tag {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Voice Use Cases */
+        .use-case-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 20px;
+        }
+
+        .use-case-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .use-case-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .use-case-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .use-case-subtitle {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .use-case-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .prompt-box {
+            background: rgba(0,0,0,0.3);
+            border-left: 3px solid var(--accent);
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 15px;
+        }
+
+        .prompt-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .prompt-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        .use-case-applications {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .application-tag {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* GPT Store Section */
+        .gpt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .gpt-card {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .gpt-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .gpt-description {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Color variants for tool icons */
+        .icon-magicschool { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+        .icon-eduaide { background: linear-gradient(135deg, #10b981, #059669); }
+        .icon-curipod { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .icon-questionwell { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .icon-quizizz { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .icon-vevox { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .icon-mindsmith { background: linear-gradient(135deg, #f43f5e, #e11d48); }
+        .icon-gamma { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1>AI Resources for Educators</h1>
+            <p>Education-specific tools and voice interaction strategies for higher education</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="showTab('tools')">🛠️ Education AI Tools</button>
+            <button class="tab-btn" onclick="showTab('voice')">🎙️ Voice Interaction</button>
+            <button class="tab-btn" onclick="showTab('gpts')">🤖 Custom GPTs</button>
+        </div>
+
+        <!-- Tab 1: Education AI Tools -->
+        <div id="tools" class="tab-content active">
+            <div class="section-header">
+                <h2 class="section-title">📚 Purpose-Built Education Platforms</h2>
+            </div>
+            
+            <div class="tools-grid">
+                <!-- MagicSchool -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-magicschool">🪄</div>
+                        <div>
+                            <div class="tool-name">MagicSchool AI</div>
+                            <div class="tool-tagline">The all-in-one educator toolkit</div>
+                        </div>
+                    </div>
+                    <p class="tool-description">60+ AI tools specifically designed for educators. Generate lesson plans, rubrics, IEPs, parent communications, and more—all with built-in safety guardrails.</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">Lesson Plans</span>
+                        <span class="feature-tag">Rubrics</span>
+                        <span class="feature-tag">IEP Writer</span>
+                        <span class="feature-tag">Student Tools</span>
+                    </div>
+                    <div class="tool-footer">
+                        <a href="https://magicschool.ai" target="_blank" class="tool-link">magicschool.ai →</a>
+                        <span class="price-tag">Free tier</span>
+                    </div>
+                </div>
+
+                <!-- Eduaide -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-eduaide">📝</div>
+                        <div>
+                            <div class="tool-name">Eduaide.AI</div>
+                            <div class="tool-tagline">Instructional design powerhouse</div>
+                        </div>
+                    </div>
+                    <p class="tool-description">Comprehensive lesson planning aligned to standards. Generate assessments, adapt content for different reading levels, and create complete instructional sequences.</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">Standards Alignment</span>
+                        <span class="feature-tag">Assessments</span>
+                        <span class="feature-tag">Differentiation</span>
+                        <span class="feature-tag">Feedback</span>
+                    </div>
+                    <div class="tool-footer">
+                        <a href="https://eduaide.ai" target="_blank" class="tool-link">eduaide.ai →</a>
+                        <span class="price-tag">Free tier</span>
+                    </div>
+                </div>
+
+                <!-- Curipod -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-curipod">🎮</div>
+                        <div>
+                            <div class="tool-name">Curipod</div>
+                            <div class="tool-tagline">Interactive slides with AI</div>
+                        </div>
+                    </div>
+                    <p class="tool-description">Create interactive lesson presentations with AI-generated content. Built-in polls, word clouds, drawing activities, and student engagement analytics.</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">Interactive Slides</span>
+                        <span class="feature-tag">Polls & Quizzes</span>
+                        <span class="feature-tag">AI Whiteboard</span>
+                        <span class="feature-tag">Analytics</span>
+                    </div>
+                    <div class="tool-footer">
+                        <a href="https://curipod.com" target="_blank" class="tool-link">curipod.com →</a>
+                        <span class="price-tag">Free tier</span>
+                    </div>
+                </div>
+
+                <!-- QuestionWell -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-questionwell">❓</div>
+                        <div>
+                            <div class="tool-name">QuestionWell</div>
+                            <div class="tool-tagline">Content to quiz in seconds</div>
+                        </div>
+                    </div>
+                    <p class="tool-description">Paste text, URL, or upload a file and instantly generate quiz questions. Exports directly to Canvas, Blackboard, and other LMS platforms.</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">Auto Questions</span>
+                        <span class="feature-tag">LMS Export</span>
+                        <span class="feature-tag">YouTube Import</span>
+                        <span class="feature-tag">Distractors</span>
+                    </div>
+                    <div class="tool-footer">
+                        <a href="https://questionwell.org" target="_blank" class="tool-link">questionwell.org →</a>
+                        <span class="price-tag">Free tier</span>
+                    </div>
+                </div>
+
+                <!-- Quizizz -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-quizizz">🎯</div>
+                        <div>
+                            <div class="tool-name">Quizizz (Wayground)</div>
+                            <div class="tool-tagline">Gamified assessments</div>
+                        </div>
+                    </div>
+                    <p class="tool-description">Create engaging, game-like quizzes and interactive lessons. AI assists with question generation and provides detailed student performance analytics.</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">Gamification</span>
+                        <span class="feature-tag">Live Games</span>
+                        <span class="feature-tag">Async Practice</span>
+                        <span class="feature-tag">Reports</span>
+                    </div>
+                    <div class="tool-footer">
+                        <a href="https://quizizz.com" target="_blank" class="tool-link">quizizz.com →</a>
+                        <span class="price-tag">Free tier</span>
+                    </div>
+                </div>
+
+                <!-- Vevox -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-vevox">📊</div>
+                        <div>
+                            <div class="tool-name">Vevox</div>
+                            <div class="tool-tagline">Live polling & Q&A</div>
+                        </div>
+                    </div>
+                    <p class="tool-description">Real-time polling, quizzing, and Q&A for lectures. Integrates with PowerPoint and major video conferencing tools. Anonymous participation options.</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">Live Polls</span>
+                        <span class="feature-tag">Anonymous Q&A</span>
+                        <span class="feature-tag">PowerPoint</span>
+                        <span class="feature-tag">Word Clouds</span>
+                    </div>
+                    <div class="tool-footer">
+                        <a href="https://vevox.com" target="_blank" class="tool-link">vevox.com →</a>
+                        <span class="price-tag">Free tier</span>
+                    </div>
+                </div>
+
+                <!-- Mindsmith -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-mindsmith">🧠</div>
+                        <div>
+                            <div class="tool-name">Mindsmith AI</div>
+                            <div class="tool-tagline">AI course builder</div>
+                        </div>
+                    </div>
+                    <p class="tool-description">Build interactive micro-courses and training modules with AI. Includes branching scenarios, knowledge checks, and SCORM export for LMS integration.</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">Micro-courses</span>
+                        <span class="feature-tag">Branching</span>
+                        <span class="feature-tag">SCORM Export</span>
+                        <span class="feature-tag">Templates</span>
+                    </div>
+                    <div class="tool-footer">
+                        <a href="https://mindsmith.ai" target="_blank" class="tool-link">mindsmith.ai →</a>
+                        <span class="price-tag">Free tier</span>
+                    </div>
+                </div>
+
+                <!-- Gamma -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-gamma">✨</div>
+                        <div>
+                            <div class="tool-name">Gamma App</div>
+                            <div class="tool-tagline">AI presentations</div>
+                        </div>
+                    </div>
+                    <p class="tool-description">Create beautiful presentations, documents, and webpages with AI. Just describe what you want and Gamma designs it automatically.</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">Auto Design</span>
+                        <span class="feature-tag">Presentations</span>
+                        <span class="feature-tag">Documents</span>
+                        <span class="feature-tag">Embed Content</span>
+                    </div>
+                    <div class="tool-footer">
+                        <a href="https://gamma.app" target="_blank" class="tool-link">gamma.app →</a>
+                        <span class="price-tag">Free tier</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Voice Interaction -->
+        <div id="voice" class="tab-content">
+            <div class="section-header">
+                <h2 class="section-title">🎙️ AI Voice Interaction Use Cases</h2>
+            </div>
+
+            <!-- Use Case 1 -->
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <div class="use-case-number">1</div>
+                    <div>
+                        <div class="use-case-title">Chat with Historical Figures / Experts</div>
+                        <div class="use-case-subtitle">Bring your subject matter to life through dialogue</div>
+                    </div>
+                </div>
+                <p class="use-case-description">Students have a voice conversation with AI playing a historical figure, author, scientist, or expert in your field. They must think critically to ask good questions and engage meaningfully with the content.</p>
+                <div class="prompt-box">
+                    <div class="prompt-label">Example Prompt</div>
+                    <p class="prompt-text">"You are Frederick Douglass. I'm a journalism student interviewing you about the role of the press in social change. Stay in character and respond as Douglass would, drawing on your writings and speeches. Ask me questions too."</p>
+                </div>
+                <div class="use-case-applications">
+                    <span class="application-tag">History</span>
+                    <span class="application-tag">Literature</span>
+                    <span class="application-tag">Philosophy</span>
+                    <span class="application-tag">Political Science</span>
+                </div>
+            </div>
+
+            <!-- Use Case 2 -->
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <div class="use-case-number">2</div>
+                    <div>
+                        <div class="use-case-title">Language Practice Partner</div>
+                        <div class="use-case-subtitle">24/7 conversation practice without judgment</div>
+                    </div>
+                </div>
+                <p class="use-case-description">AI becomes a patient, always-available conversation partner for language learners. It can adjust difficulty, correct mistakes gently, and simulate real-world scenarios like ordering food or job interviews.</p>
+                <div class="prompt-box">
+                    <div class="prompt-label">Example Prompt</div>
+                    <p class="prompt-text">"You are a friendly Spanish tutor. Have a conversation with me about ordering food at a restaurant. Speak only in Spanish, but if I make a grammar mistake, gently correct me and explain why in English, then continue in Spanish."</p>
+                </div>
+                <div class="use-case-applications">
+                    <span class="application-tag">Foreign Languages</span>
+                    <span class="application-tag">ESL/ELL</span>
+                    <span class="application-tag">Communication</span>
+                </div>
+            </div>
+
+            <!-- Use Case 3 -->
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <div class="use-case-number">3</div>
+                    <div>
+                        <div class="use-case-title">Devil's Advocate / Stress Test Ideas</div>
+                        <div class="use-case-subtitle">Strengthen thinking through rigorous challenge</div>
+                    </div>
+                </div>
+                <p class="use-case-description">AI argues against the student's position, research proposal, or project plan. This forces students to anticipate objections, identify weaknesses, and strengthen their arguments before presenting to others.</p>
+                <div class="prompt-box">
+                    <div class="prompt-label">Example Prompt</div>
+                    <p class="prompt-text">"I'm going to explain my research proposal. Your job is to be a skeptical reviewer—ask tough questions, point out weaknesses, and challenge my assumptions. Don't be mean, but be rigorous. After we're done, summarize the main concerns I should address."</p>
+                </div>
+                <div class="use-case-applications">
+                    <span class="application-tag">Research Methods</span>
+                    <span class="application-tag">Business</span>
+                    <span class="application-tag">Debate</span>
+                    <span class="application-tag">Thesis Prep</span>
+                </div>
+            </div>
+
+            <!-- Use Case 4 -->
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <div class="use-case-number">4</div>
+                    <div>
+                        <div class="use-case-title">Reverse Interview / Socratic Dialogue</div>
+                        <div class="use-case-subtitle">AI asks questions to draw out student thinking</div>
+                    </div>
+                </div>
+                <p class="use-case-description">Instead of students asking AI questions, the AI asks the student questions to help them discover what they know and don't know. Builds metacognition and articulation skills.</p>
+                <div class="prompt-box">
+                    <div class="prompt-label">Example Prompt</div>
+                    <p class="prompt-text">"I want to explore my understanding of photosynthesis. Ask me probing questions one at a time—don't give me answers, help me discover what I know and don't know through your questions. Start simple and get more complex based on my responses."</p>
+                </div>
+                <div class="use-case-applications">
+                    <span class="application-tag">Any Subject</span>
+                    <span class="application-tag">Test Prep</span>
+                    <span class="application-tag">Self-Assessment</span>
+                </div>
+            </div>
+
+            <!-- Use Case 5 -->
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <div class="use-case-number">5</div>
+                    <div>
+                        <div class="use-case-title">Role-Play Simulations</div>
+                        <div class="use-case-subtitle">Practice real-world professional scenarios</div>
+                    </div>
+                </div>
+                <p class="use-case-description">Students practice professional conversations: patient intake, client meetings, difficult workplace conversations, interviews. AI can play multiple roles and provide feedback afterward.</p>
+                <div class="prompt-box">
+                    <div class="prompt-label">Example Prompt</div>
+                    <p class="prompt-text">"You are a patient coming into a clinic with chest pain. You're anxious and not giving clear answers. I'm a nursing student practicing patient intake. After our conversation, break character and give me feedback on my communication skills."</p>
+                </div>
+                <div class="use-case-applications">
+                    <span class="application-tag">Nursing</span>
+                    <span class="application-tag">Social Work</span>
+                    <span class="application-tag">Business</span>
+                    <span class="application-tag">Counseling</span>
+                </div>
+            </div>
+
+            <!-- Use Case 6 -->
+            <div class="use-case-card">
+                <div class="use-case-header">
+                    <div class="use-case-number">6</div>
+                    <div>
+                        <div class="use-case-title">Creative Storytelling / World Building</div>
+                        <div class="use-case-subtitle">Collaborative narrative creation</div>
+                    </div>
+                </div>
+                <p class="use-case-description">Build stories together through voice conversation. Great for creative writing classes, exploring "what if" scenarios in history, or making abstract concepts tangible through narrative.</p>
+                <div class="prompt-box">
+                    <div class="prompt-label">Example Prompt</div>
+                    <p class="prompt-text">"Let's create a story together set during the Industrial Revolution. You'll be the narrator and various characters. I'll be a factory worker. Describe scenes vividly and give me choices about what my character does next."</p>
+                </div>
+                <div class="use-case-applications">
+                    <span class="application-tag">Creative Writing</span>
+                    <span class="application-tag">History</span>
+                    <span class="application-tag">Theater</span>
+                    <span class="application-tag">Game Design</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Custom GPTs -->
+        <div id="gpts" class="tab-content">
+            <div class="section-header">
+                <h2 class="section-title">🤖 Custom GPTs for Higher Education</h2>
+            </div>
+            
+            <p style="color: var(--text-muted); margin-bottom: 20px;">These specialized assistants are available in the ChatGPT GPT Store (requires ChatGPT Plus, $20/month). Search these names or browse the Education category.</p>
+
+            <div class="gpt-grid">
+                <div class="gpt-card">
+                    <div class="gpt-name">📐 Instructional Design Magic</div>
+                    <div class="gpt-description">Helps build courses using established ID frameworks like ADDIE, SAM, and backward design.</div>
+                </div>
+                <div class="gpt-card">
+                    <div class="gpt-name">🎯 Learning Objective Writer</div>
+                    <div class="gpt-description">Generates measurable, aligned learning objectives using Bloom's Taxonomy.</div>
+                </div>
+                <div class="gpt-card">
+                    <div class="gpt-name">📊 Rubric Generator</div>
+                    <div class="gpt-description">Creates detailed assessment rubrics with criteria and performance levels.</div>
+                </div>
+                <div class="gpt-card">
+                    <div class="gpt-name">📋 Syllabus Builder</div>
+                    <div class="gpt-description">Drafts comprehensive course syllabi from your inputs and learning goals.</div>
+                </div>
+                <div class="gpt-card">
+                    <div class="gpt-name">💬 Discussion Prompt Creator</div>
+                    <div class="gpt-description">Generates thought-provoking discussion questions at various cognitive levels.</div>
+                </div>
+                <div class="gpt-card">
+                    <div class="gpt-name">📝 Assignment Designer</div>
+                    <div class="gpt-description">Creates authentic assessments aligned to learning objectives.</div>
+                </div>
+                <div class="gpt-card">
+                    <div class="gpt-name">🔍 Research Assistant</div>
+                    <div class="gpt-description">Helps find, summarize, and synthesize academic sources.</div>
+                </div>
+                <div class="gpt-card">
+                    <div class="gpt-name">✍️ Feedback Helper</div>
+                    <div class="gpt-description">Assists in writing constructive, specific feedback on student work.</div>
+                </div>
+            </div>
+
+            <div class="section-header" style="margin-top: 30px;">
+                <h2 class="section-title">💡 Pro Tips for Custom GPTs</h2>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-name">Search Smart</div>
+                    <p class="tool-description">In the GPT Store, search terms like "instructional design," "higher education," "professor," or "curriculum" to find relevant assistants.</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-name">Build Your Own</div>
+                    <p class="tool-description">Create custom GPTs with your syllabus, rubrics, and course materials uploaded. They'll reference your specific context in every response.</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-name">Combine with Voice</div>
+                    <p class="tool-description">Many custom GPTs work great with ChatGPT's voice mode—talk through your course design instead of typing.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Interactive Resource for Higher Education Faculty & Instructional Designers</p>
+            <p style="margin-top: 5px;">Part of the "Leveraging AI for Course Design" Workshop | Updated January 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Activate button
+            event.target.classList.add('active');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const tabs = ['tools', 'voice', 'gpts'];
+            const currentTab = document.querySelector('.tab-content.active').id;
+            const currentIndex = tabs.indexOf(currentTab);
+            
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                const nextIndex = (currentIndex + 1) % tabs.length;
+                document.querySelectorAll('.tab-btn')[nextIndex].click();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                document.querySelectorAll('.tab-btn')[prevIndex].click();
+            }
+        });
+    </script>
+</body>
+</html>
