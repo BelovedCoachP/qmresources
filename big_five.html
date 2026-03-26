@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Big 5 AI Tools for Educators</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --chatgpt-color: #10a37f;
@@ -25,7 +25,7 @@
         }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'DM Sans', sans-serif;
             background: var(--bg-dark);
             min-height: 100vh;
             color: var(--text-light);
@@ -367,7 +367,7 @@
             padding: 2px 6px;
             border-radius: 3px;
             margin: 0 2px;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'DM Mono', monospace;
         }
     </style>
 </head>
@@ -415,7 +415,7 @@
                 <div class="detail-icon" id="detailIcon" style="background: linear-gradient(135deg, var(--chatgpt-color), #0d8a6a);">💬</div>
                 <div>
                     <div class="detail-title" id="detailTitle">ChatGPT</div>
-                    <div class="detail-subtitle" id="detailSubtitle">by OpenAI • GPT-4o / GPT-4</div>
+                    <div class="detail-subtitle" id="detailSubtitle">by OpenAI • GPT-5</div>
                 </div>
             </div>
 
@@ -437,7 +437,7 @@
                     <div class="feature-tag">Voice Mode</div>
                     <div class="feature-tag">File Analysis</div>
                     <div class="feature-tag">Web Browsing</div>
-                    <div class="feature-tag">Code Interpreter</div>
+                    <div class="feature-tag">Built-in Reasoning</div>
                 </div>
             </div>
 
@@ -452,7 +452,7 @@
             <div class="detail-section">
                 <div class="section-title">Limitations</div>
                 <ul class="best-for-list" id="limitationsList">
-                    <li><span style="color: #f59e0b;">⚠</span> Can hallucinate facts without web search</li>
+                    <li><span style="color: #f59e0b;">⚠</span> Some users find GPT-5's tone less warm than GPT-4o</li>
                     <li><span style="color: #f59e0b;">⚠</span> Free tier has usage limits</li>
                 </ul>
             </div>
@@ -493,7 +493,7 @@
         </div>
 
         <footer class="footer">
-            <p>Interactive Resource for Higher Education Faculty & Instructional Designers | Updated January 2025</p>
+            <p>Interactive Resource for Higher Education Faculty &amp; Instructional Designers | Updated March 2026</p>
         </footer>
     </div>
 
@@ -506,62 +506,62 @@
             chatgpt: {
                 icon: '💬',
                 name: 'ChatGPT',
-                subtitle: 'by OpenAI • GPT-4o / GPT-4',
+                subtitle: 'by OpenAI • GPT-5',
                 color: '#10a37f',
                 bestFor: [
                     'Create diverse content types quickly',
                     'Generate quizzes, rubrics, and lesson plans',
                     'Brainstorm creative teaching approaches',
                     'Get help with coding or technical projects',
-                    'Build custom assistants for specific tasks'
+                    'Build custom assistants for specific disciplines'
                 ],
-                features: ['Custom GPTs', 'Image Generation (DALL·E)', 'Voice Mode', 'File Analysis', 'Web Browsing', 'Code Interpreter'],
+                features: ['Custom GPTs', 'Image Generation (GPT Image 1)', 'Advanced Voice Mode', 'File Analysis (up to 20 files)', 'Web Browsing', 'Built-in Adaptive Reasoning'],
                 pricing: { free: 'Free tier available', paid: 'Plus: $20/month' },
                 limitations: [
-                    'Can hallucinate facts without web search',
+                    'Some users prefer GPT-4o\'s warmer, more personal tone',
                     'Free tier has usage limits during peak times'
                 ],
-                eduTip: 'Use Custom GPTs to create discipline-specific assistants for your students. You can build a "Writing Tutor" or "Lab Report Helper" that follows your exact guidelines and rubric criteria.'
+                eduTip: 'GPT-5 now applies reasoning automatically when beneficial, so you do not need to prompt it specially. Use Custom GPTs to create discipline-specific assistants that follow your exact guidelines and rubric criteria — and with GPT-5 powering them, they are significantly more accurate and less likely to hallucinate.'
             },
             gemini: {
                 icon: '✨',
                 name: 'Gemini',
-                subtitle: 'by Google • Gemini 2.0',
+                subtitle: 'by Google • Gemini 3 Pro',
                 color: '#4285f4',
                 bestFor: [
-                    'Integrate AI directly into Google Docs, Sheets, Slides',
-                    'Analyze YouTube videos for educational content',
-                    'Work with large files (1M+ token context)',
+                    'Integrate AI directly into Google Docs, Sheets, Slides, and Forms',
+                    'Generate audio lessons and podcast-style study materials',
+                    'Work with large files using a 1M+ token context window',
                     'Access real-time information via Google Search',
-                    'Create content for Google Classroom workflows'
+                    'Reach students already in Google Classroom workflows'
                 ],
-                features: ['Google Workspace Integration', 'YouTube Analysis', 'Largest Context Window', 'Real-time Search', 'Multimodal (text, image, audio)', 'NotebookLM Integration'],
-                pricing: { free: 'Free with Google account', paid: 'Advanced: $20/month' },
+                features: ['Google Workspace Integration', 'Gemini in Classroom (free)', 'Audio Lessons & Video Overviews', 'NotebookLM Integration', 'Multimodal (text, image, audio, video)', 'Deep Research with citations'],
+                pricing: { free: 'Free with Google account (Gemini 3 Flash)', paid: 'Google AI Pro: $19.99/month (Gemini 3 Pro)' },
                 limitations: [
                     'Best features require Google ecosystem buy-in',
-                    'Can be overly cautious on some topics'
+                    'Full Gemini 3 Pro access requires paid plan or Education Plus license'
                 ],
-                eduTip: 'Use Gemini in Google Docs to help draft course materials, then use NotebookLM to create AI-generated study guides and audio overviews from your uploaded syllabi and readings.'
+                eduTip: 'Gemini for Education now provides free access to Gemini 3 Pro for qualifying institutions, plus new Audio Lessons that generate podcast-style content customizable by grade level and learning objectives. NotebookLM notebooks can now be added directly as sources in Gemini for deeper, grounded conversations with your course materials.'
             },
             claude: {
                 icon: '🎯',
                 name: 'Claude',
-                subtitle: 'by Anthropic • Claude 3.5 Sonnet',
+                subtitle: 'by Anthropic • Claude Opus 4.6 / Sonnet 4.6',
                 color: '#d97706',
                 bestFor: [
-                    'Analyze lengthy documents (200K token context)',
-                    'Get nuanced, well-reasoned written responses',
-                    'Handle sensitive topics with care',
-                    'Create detailed rubrics and feedback',
-                    'Work on complex writing or editing projects'
+                    'Analyze very lengthy documents (1M token context window)',
+                    'Get nuanced, well-reasoned written feedback and responses',
+                    'Handle sensitive topics with thoughtful, careful responses',
+                    'Create detailed rubrics, feedback, and course materials',
+                    'Work on complex writing or long-form editing projects'
                 ],
-                features: ['Massive Context Window', 'Artifacts (live previews)', 'Projects (persistent context)', 'Document Analysis', 'Thoughtful Reasoning', 'Strong Writing Quality'],
+                features: ['1 Million Token Context Window', 'Artifacts (live previews)', 'Projects (persistent context)', 'Learning Mode (Socratic questioning)', 'FERPA-compliant Education Platform', 'Strong Ethical Reasoning'],
                 pricing: { free: 'Free tier available', paid: 'Pro: $20/month' },
                 limitations: [
                     'No native image generation',
-                    'No real-time web access (unless using search feature)'
+                    'Claude for Education platform requires institutional agreement'
                 ],
-                eduTip: 'Use Claude Projects to upload your entire course syllabus, learning objectives, and past materials. Claude will reference them in every conversation, ensuring consistent alignment with your course design.'
+                eduTip: 'Claude for Education (launched April 2025) gives institutions a FERPA-compliant platform with a unique "Learning Mode" that uses Socratic questioning rather than giving students direct answers — great for critical thinking. For your own course design work, use Claude Projects to upload your full syllabus, objectives, and past materials so Claude stays aligned to your course in every conversation.'
             },
             perplexity: {
                 icon: '🔍',
@@ -569,19 +569,19 @@
                 subtitle: 'AI-Powered Research Engine',
                 color: '#20b2aa',
                 bestFor: [
-                    'Find current information with cited sources',
-                    'Conduct academic literature reviews',
-                    'Fact-check claims and verify information',
-                    'Create annotated bibliographies',
-                    'Stay current on rapidly evolving topics'
+                    'Find current information with fully cited sources',
+                    'Conduct academic literature reviews and fact-checking',
+                    'Use Deep Research for comprehensive, report-grade outputs',
+                    'Compare multiple AI models\' answers on a topic (Model Council)',
+                    'Stay current on rapidly evolving topics and fields'
                 ],
-                features: ['Real-time Citations', 'Academic Focus Mode', 'Source Quality Ranking', 'Collaborative Spaces', 'Multiple AI Models', 'Pro Search (deep research)'],
-                pricing: { free: 'Free tier (5 Pro searches/day)', paid: 'Pro: $20/month' },
+                features: ['Real-time Citations', 'Deep Research Mode', 'Model Council (compare multiple AIs)', 'Multiple Model Choice (GPT-5.4, Claude 4.6, Gemini 3.1 Pro)', 'Quizzes & Flashcards (iOS)', 'Pro Search (multi-step reasoning)'],
+                pricing: { free: 'Free tier available', paid: 'Pro: $20/month' },
                 limitations: [
                     'Less suited for creative content generation',
-                    'Best features behind paywall'
+                    'Deep Research and Model Council require Pro subscription'
                 ],
-                eduTip: 'Use the "Academic" focus mode when researching topics for course development. It prioritizes peer-reviewed sources and provides proper citations you can verify and share with students as models.'
+                eduTip: 'The new Model Council feature lets you run the same research question through multiple frontier AI models simultaneously and see where they agree or diverge — a powerful tool for modeling critical thinking and source triangulation for students. For your own research, Deep Research now achieves benchmark-leading accuracy, making it ideal for literature reviews during course development.'
             },
             copilot: {
                 icon: '🪟',
@@ -589,19 +589,19 @@
                 subtitle: 'by Microsoft • GPT-4 Powered',
                 color: '#0078d4',
                 bestFor: [
-                    'Draft and edit in Word, PowerPoint, Excel',
-                    'Summarize long email threads in Outlook',
+                    'Draft and edit directly in Word, PowerPoint, Excel, and Outlook',
+                    'Summarize long email threads and meeting notes in Teams',
                     'Generate formulas and analyze data in Excel',
-                    'Create presentations from outlines',
-                    'Work within existing Microsoft workflows'
+                    'Create presentations from outlines or Word documents',
+                    'Work within existing Microsoft 365 institutional workflows'
                 ],
-                features: ['Microsoft 365 Integration', 'Word/Excel/PowerPoint AI', 'Outlook Summarization', 'Teams Meeting Summaries', 'Edge Browser Integration', 'Free Web Version'],
-                pricing: { free: 'Free web version', paid: 'Microsoft 365 Copilot: $30/user/month' },
+                features: ['Microsoft 365 Integration', 'Word/Excel/PowerPoint Agents', 'Outlook Inbox & Calendar Awareness', 'Teams Meeting Summaries', 'Copilot Chat (free for M365 users)', 'Enterprise Data Protection'],
+                pricing: { free: 'Copilot Chat free with M365 subscription', paid: 'Copilot Business: $21/user/month (add-on)' },
                 limitations: [
-                    'Full power requires Microsoft 365 subscription',
-                    'Less customizable than ChatGPT'
+                    'Full in-app AI features require paid Copilot add-on license',
+                    'Less customizable than ChatGPT for non-Microsoft workflows'
                 ],
-                eduTip: 'If your institution uses Microsoft 365, Copilot can draft PowerPoint presentations from your Word documents and generate Excel grade analysis formulas—all without leaving your familiar tools.'
+                eduTip: 'If your institution uses Microsoft 365, Copilot Chat is already available to you at no extra cost with inbox and calendar awareness. For deeper integration, the Copilot add-on now includes Word, Excel, and PowerPoint agents that let you work iteratively with AI directly inside your documents — great for drafting course materials, analyzing grade data in Excel, or building out slide decks from an outline.'
             }
         };
 
@@ -668,6 +668,9 @@
                 selectTool(tools[parseInt(e.key) - 1]);
             }
         });
+
+        // Initialize with first tool details rendered
+        selectTool('chatgpt');
     </script>
 </body>
 </html>
