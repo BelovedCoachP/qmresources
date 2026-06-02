@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Evolution of AI: From Rules to Reasoning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d1b2a;
+    --paper:#f4ece1;
+    --paper-2:#ece0cf;
+    --signal:#ff5a36;
+    --signal-2:#ffb627;
+    --teal:#1b9aaa;
+    --deep:#13315c;
+    --violet:#6a4c93;
+    --line:rgba(13,27,42,.14);
+    --card:#fffaf2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Outfit',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(27,154,170,.10), transparent 40%),
+      radial-gradient(circle at 88% 8%, rgba(255,90,54,.10), transparent 35%),
+      radial-gradient(circle at 50% 95%, rgba(106,76,147,.08), transparent 45%);
+  }
+  /* grain */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  header{
+    text-align:center;
+    padding:54px 24px 26px;
+    position:relative;
+  }
+  .kicker{
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;
+    letter-spacing:.42em;
+    font-size:.72rem;
+    color:var(--teal);
+    margin-bottom:18px;
+    animation:fadeUp .7s both;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:900;
+    font-size:clamp(2.3rem,6vw,4.6rem);
+    line-height:.95;
+    letter-spacing:-.02em;
+    animation:fadeUp .7s .08s both;
+  }
+  h1 .em{
+    font-style:italic;
+    color:var(--signal);
+    position:relative;
+  }
+  h1 .em::after{
+    content:"";position:absolute;left:-2%;right:-2%;bottom:.06em;height:.16em;
+    background:var(--signal-2);z-index:-1;border-radius:2px;transform:rotate(-1deg);
+  }
+  .sub{
+    max-width:640px;margin:20px auto 0;font-size:1.05rem;font-weight:300;
+    color:rgba(13,27,42,.72);animation:fadeUp .7s .16s both;
+  }
+  .hint{
+    margin-top:22px;font-family:'Space Mono',monospace;font-size:.74rem;
+    letter-spacing:.05em;color:rgba(13,27,42,.5);animation:fadeUp .7s .24s both;
+  }
+  .hint b{color:var(--signal)}
+
+  /* progress bar */
+  .progwrap{position:sticky;top:0;z-index:50;height:6px;background:transparent}
+  .prog{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--signal));transition:width .1s linear}
+
+  /* scroller */
+  .scroller{
+    display:flex;gap:0;overflow-x:auto;overflow-y:hidden;
+    padding:30px 6vw 70px;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+  }
+  .scroller::-webkit-scrollbar{height:10px}
+  .scroller::-webkit-scrollbar-track{background:var(--paper-2)}
+  .scroller::-webkit-scrollbar-thumb{background:var(--ink);border-radius:6px}
+
+  .era{
+    flex:0 0 auto;scroll-snap-align:center;position:relative;
+    padding:0 30px;display:flex;flex-direction:column;justify-content:flex-start;
+  }
+  /* the spine line */
+  .era::before{
+    content:"";position:absolute;left:0;right:0;top:128px;height:3px;
+    background:repeating-linear-gradient(90deg,var(--line) 0 14px,transparent 14px 22px);
+    z-index:0;
+  }
+  .era.modern::before{
+    background:linear-gradient(90deg,var(--teal),var(--signal));height:4px;top:128px;
+    box-shadow:0 0 16px rgba(255,90,54,.4);
+  }
+
+  .node{
+    position:relative;z-index:2;width:30px;height:30px;border-radius:50%;
+    background:var(--card);border:3px solid var(--ink);margin:114px auto 0;
+    display:grid;place-items:center;font-size:.9rem;transition:.3s;
+  }
+  .modern .node{border-color:var(--signal);box-shadow:0 0 0 6px rgba(255,90,54,.15)}
+
+  .year{
+    font-family:'Space Mono',monospace;font-weight:700;text-align:center;
+    margin-top:14px;font-size:.82rem;letter-spacing:.04em;color:var(--deep);
+  }
+  .modern .year{color:var(--signal)}
+
+  .card{
+    width:248px;margin-top:14px;background:var(--card);
+    border:2px solid var(--ink);border-radius:16px;padding:18px 18px 16px;
+    cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;
+    box-shadow:5px 6px 0 var(--ink);position:relative;
+  }
+  .modern .card{box-shadow:5px 6px 0 var(--signal)}
+  .card:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:8px 12px 0 var(--ink)}
+  .modern .card:hover{box-shadow:8px 12px 0 var(--signal)}
+  .card.big{width:300px}
+
+  .icon{font-size:1.7rem;line-height:1;margin-bottom:8px;display:block}
+  .card h3{
+    font-family:'Fraunces',serif;font-weight:600;font-size:1.18rem;line-height:1.05;
+    margin-bottom:6px;letter-spacing:-.01em;
+  }
+  .tag{
+    font-family:'Space Mono',monospace;font-size:.62rem;text-transform:uppercase;
+    letter-spacing:.12em;color:var(--teal);margin-bottom:10px;
+  }
+  .modern .tag{color:var(--signal)}
+  .card p{font-size:.84rem;font-weight:300;line-height:1.45;color:rgba(13,27,42,.78)}
+  .more{
+    font-family:'Space Mono',monospace;font-size:.66rem;margin-top:12px;
+    color:var(--ink);display:flex;align-items:center;gap:6px;font-weight:700;
+  }
+  .more .plus{
+    display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;
+    background:var(--ink);color:var(--card);font-size:.8rem;transition:.3s;
+  }
+  .modern .more .plus{background:var(--signal)}
+
+  /* class era badge */
+  .classroom{
+    margin-top:14px;font-size:.74rem;font-weight:500;line-height:1.4;
+    background:rgba(27,154,170,.12);border-left:3px solid var(--teal);
+    padding:8px 10px;border-radius:0 8px 8px 0;color:var(--deep);display:none;
+  }
+
+  /* modal */
+  .overlay{
+    position:fixed;inset:0;background:rgba(13,27,42,.55);backdrop-filter:blur(5px);
+    display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;
+    opacity:0;transition:opacity .3s;
+  }
+  .overlay.show{display:flex;opacity:1}
+  .modal{
+    background:var(--card);border:3px solid var(--ink);border-radius:22px;
+    max-width:560px;width:100%;max-height:86vh;overflow-y:auto;padding:36px 34px 30px;
+    box-shadow:12px 14px 0 var(--signal);transform:translateY(20px) scale(.97);
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1);position:relative;
+  }
+  .overlay.show .modal{transform:translateY(0) scale(1)}
+  .modal .close{
+    position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;
+    border:2px solid var(--ink);background:var(--paper);cursor:pointer;font-size:1.1rem;
+    display:grid;place-items:center;transition:.2s;
+  }
+  .modal .close:hover{background:var(--signal);color:#fff;transform:rotate(90deg)}
+  .modal .micon{font-size:2.6rem;margin-bottom:10px}
+  .modal .myear{font-family:'Space Mono',monospace;color:var(--signal);font-weight:700;letter-spacing:.08em;font-size:.85rem}
+  .modal h2{font-family:'Fraunces',serif;font-weight:900;font-size:1.9rem;line-height:1;margin:6px 0 16px;letter-spacing:-.02em}
+  .modal p.lead{font-size:1rem;font-weight:300;line-height:1.55;margin-bottom:20px;color:rgba(13,27,42,.85)}
+  .modal h4{font-family:'Space Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--teal);margin:18px 0 10px}
+  .modal ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .modal li{font-size:.92rem;font-weight:300;line-height:1.4;padding-left:26px;position:relative}
+  .modal li::before{content:"▸";position:absolute;left:4px;color:var(--signal);font-size:.9rem}
+  .modal .edu{
+    margin-top:22px;background:linear-gradient(135deg,rgba(27,154,170,.14),rgba(255,182,39,.14));
+    border:2px dashed var(--teal);border-radius:14px;padding:16px 18px;
+  }
+  .modal .edu strong{font-family:'Fraunces',serif;display:block;font-size:1.05rem;margin-bottom:6px;color:var(--deep)}
+  .modal .edu span{font-size:.9rem;font-weight:300;line-height:1.5}
+
+  footer{
+    text-align:center;padding:10px 24px 60px;
+  }
+  .legend{
+    display:inline-flex;gap:26px;flex-wrap:wrap;justify-content:center;
+    font-family:'Space Mono',monospace;font-size:.72rem;color:rgba(13,27,42,.66);
+  }
+  .legend span{display:flex;align-items:center;gap:8px}
+  .dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--ink)}
+  .dot.old{background:var(--card)}
+  .dot.new{background:var(--signal);border-color:var(--signal)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+  @media(max-width:640px){
+    .scroller{padding:20px 12vw 60px}
+    .card{width:230px}
+    .card.big{width:250px}
+    .modal{padding:30px 22px 26px}
+  }
+</style>
+</head>
+<body>
+
+<div class="progwrap"><div class="prog" id="prog"></div></div>
+
+<header>
+  <div class="kicker">A Field Guide for Educators</div>
+  <h1>The Evolution of <span class="em">AI</span></h1>
+  <p class="sub">Seventy years from rigid rules to reasoning partners. Scroll the timeline, then tap any era to see what it means for your classroom.</p>
+  <p class="hint">← scroll sideways &nbsp;·&nbsp; tap a card for <b>the full story</b> →</p>
+</header>
+
+<div class="scroller" id="scroller"></div>
+
+<footer>
+  <div class="legend">
+    <span><i class="dot old"></i> Foundations &amp; build-up</span>
+    <span><i class="dot new"></i> The generative era (2023–2026)</span>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const eras = [
+  {
+    era:"old", icon:"🧮", year:"1950s–70s", tag:"The Dream Begins",
+    title:"Symbolic AI",
+    blurb:"Machines followed exact, hand-written instructions. No room for ambiguity.",
+    lead:"The earliest AI ran on explicit logic. Programmers spelled out every rule, and the machine obeyed literally, like teaching a child words one at a time.",
+    points:[
+      "1950: Alan Turing proposes the Turing Test to ask whether a machine could be called 'intelligent.'",
+      "Programs solved logic puzzles and played simple games, but only within strict pre-set boundaries.",
+      "Any situation the programmer hadn't anticipated simply broke the system."
+    ],
+    edu:["Why it still matters","This era reminds us that AI does exactly what it's told. Clear instructions still produce the best results, which is the whole idea behind prompt engineering."]
+  },
+  {
+    era:"old", icon:"📋", year:"1980s–90s", tag:"If This, Then That",
+    title:"Rule-Based Systems",
+    blurb:"Expert systems followed branching logic, like a very complex recipe.",
+    lead:"AI grew more interactive through 'expert systems' that chained together hundreds of if-then rules to mimic a human specialist, yet everything still lived inside pre-defined constraints.",
+    points:[
+      "1997: IBM's Deep Blue defeats world chess champion Garry Kasparov.",
+      "Systems could advise on narrow tasks (medical diagnoses, equipment repair) but couldn't learn anything new.",
+      "Every new capability had to be programmed by hand, one rule at a time."
+    ],
+    edu:["Why it still matters","Rule-based thinking lives on in rubrics and decision trees. Knowing AI's roots helps students see that 'intelligent' tools are built on human-designed logic."]
+  },
+  {
+    era:"old", icon:"📈", year:"2000s", tag:"Learning From Data",
+    title:"Machine Learning",
+    blurb:"Instead of being told the rules, AI started finding patterns in data.",
+    lead:"The big shift: rather than coding every rule, we fed machines examples and let them infer the patterns, like a student applying learned concepts to new problems.",
+    points:[
+      "Spam filters, recommendation engines, and search rankings became everyday machine learning.",
+      "Accuracy depended on the quantity and quality of training data, not clever rules.",
+      "The role of the human moved from 'rule writer' to 'data curator and guide.'"
+    ],
+    edu:["Why it still matters","This is where 'AI learns from examples' begins. It's also where bias enters: a model is only as fair as the data it learns from, a key discussion point for any classroom policy."]
+  },
+  {
+    era:"old", icon:"🧠", year:"2010s", tag:"Neural Networks",
+    title:"Deep Learning",
+    blurb:"Layered neural networks unlocked human-like understanding of language and images.",
+    lead:"Deep neural networks, loosely modeled on the brain, let AI recognize speech, identify images, and generate human-like text. Prompting became a genuine back-and-forth with the machine.",
+    points:[
+      "2012 onward: breakthroughs in image recognition kick off the deep learning boom.",
+      "Voice assistants, real-time translation, and self-driving research all accelerate.",
+      "2017: the 'transformer' architecture is introduced, setting the stage for everything that follows."
+    ],
+    edu:["Why it still matters","The transformer is the engine under today's chatbots. Students don't need the math, but knowing 'it predicts the next word from patterns' demystifies the magic."]
+  },
+  {
+    era:"old", icon:"💬", year:"2018–22", tag:"The LLM Arrives",
+    title:"Large Language Models",
+    blurb:"GPT-3 and friends could write, summarize, and code at a remarkable scale.",
+    lead:"Large language models trained on vast text could suddenly write essays, draft code, and hold a conversation. Prompting evolved from simple commands into rich, context-aware requests.",
+    points:[
+      "2020: GPT-3 stuns the field with fluent, general-purpose text generation.",
+      "Nov 2022: ChatGPT launches and reaches 100 million users in two months, the fastest-adopted app in history.",
+      "AI moves out of research labs and onto everyone's screen, including students'."
+    ],
+    edu:["Why it still matters","This is the moment education had to respond. Overnight, every student had access to a writing partner, forcing fresh conversations about integrity and assessment."]
+  },
+  {
+    era:"modern", icon:"🎨", year:"2023", tag:"Generative Goes Mainstream", big:true,
+    title:"The Multimodal Leap",
+    blurb:"GPT-4 arrives. AI begins to see images, not just read text.",
+    lead:"2023 turned generative AI from a novelty into a daily tool. Models grew far more capable and began handling more than just words, processing images alongside text.",
+    points:[
+      "March 2023: GPT-4 launches with sharply improved reasoning and the ability to interpret images.",
+      "Anthropic's Claude and Google's Bard (later Gemini) enter the race, giving educators real choices.",
+      "Image generators (DALL·E, Midjourney, Stable Diffusion) explode into classrooms and creative work.",
+      "Schools scramble to write their first AI policies."
+    ],
+    edu:["Your classroom in 2023","The year of 'wait, can it do that?' The first wave of AI-assisted lesson planning, content drafting, and image creation begins, alongside the first integrity panic."]
+  },
+  {
+    era:"modern", icon:"🔀", year:"2024", tag:"One Model, Every Medium", big:true,
+    title:"Truly Multimodal",
+    blurb:"A single model now handles text, images, audio, and video together.",
+    lead:"2024 made 'multimodal' the default. Instead of separate tools for each task, one model could take in a photo, a voice note, or a document and respond across formats, all in real time.",
+    points:[
+      "Models like GPT-4o and Gemini process and generate text, images, and audio in one seamless flow.",
+      "Real-time voice conversation makes AI feel less like a tool and more like an assistant.",
+      "Massive context windows let AI read entire textbooks or course shells at once.",
+      "Education-specific tools (MagicSchool, Eduaide, Curipod) mature rapidly."
+    ],
+    edu:["Your classroom in 2024","You can now hand AI a student's diagram, a recorded lecture, or a full syllabus and get useful feedback. Differentiation and accessibility get dramatically easier."]
+  },
+  {
+    era:"modern", icon:"🤖", year:"2025", tag:"AI That Takes Action", big:true,
+    title:"The Agentic Turn",
+    blurb:"AI stops just answering and starts doing, completing multi-step tasks on its own.",
+    lead:"2025 was the year of 'agentic' AI. Rather than responding one prompt at a time, models could plan and carry out multi-step work: researching, drafting, revising, and using other tools with minimal supervision.",
+    points:[
+      "Agents browse the web, write and run code, and build full documents from a single request.",
+      "Frontier models (GPT-5, Claude 4, Gemini) push reasoning to new highs on expert-level benchmarks.",
+      "'Deep research' features search dozens of sources and synthesize them in minutes.",
+      "Educators begin automating repetitive work: quiz variants, reformatting, rubric drafts."
+    ],
+    edu:["Your classroom in 2025","Think delegation, not dialogue. You can ask AI to 'build me three versions of this assessment aligned to these outcomes' and review the output rather than make it from scratch."]
+  },
+  {
+    era:"modern", icon:"✨", year:"2026", tag:"You Are Here", big:true,
+    title:"Reasoning Partners",
+    blurb:"Capable, agentic, multimodal AI is now woven into everyday teaching.",
+    lead:"Today's models reason through complex problems, work across every medium, and act as genuine collaborators. The question is no longer 'can AI do this?' but 'how do we use it well and responsibly?'",
+    points:[
+      "Top models exceed 50% on Humanity's Last Exam, a benchmark of the hardest expert questions.",
+      "AI is embedded directly in the tools you already use: documents, slides, your LMS.",
+      "The educator's edge is judgment: prompting, verifying, and aligning AI work to standards.",
+      "Responsible, transparent use becomes the core professional skill, not the technology itself."
+    ],
+    edu:["Your classroom in 2026","This workshop's home base. Your value isn't competing with AI's speed; it's the pedagogy, the quality control, and the ethical framing only you can provide."]
+  }
+];
+
+const scroller = document.getElementById('scroller');
+
+eras.forEach((e,i)=>{
+  const el = document.createElement('div');
+  el.className = 'era ' + (e.era==='modern'?'modern':'');
+  el.innerHTML = `
+    <div class="node">${e.era==='modern'?'★':'●'}</div>
+    <div class="year">${e.year}</div>
+    <div class="card ${e.big?'big':''}" data-i="${i}">
+      <span class="icon">${e.icon}</span>
+      <div class="tag">${e.tag}</div>
+      <h3>${e.title}</h3>
+      <p>${e.blurb}</p>
+      <div class="more"><span class="plus">+</span> tap for the full story</div>
+    </div>
+  `;
+  scroller.appendChild(el);
+});
+
+// modal
+const overlay=document.getElementById('overlay');
+const modal=document.getElementById('modal');
+function openModal(i){
+  const e=eras[i];
+  modal.innerHTML=`
+    <button class="close" aria-label="Close">✕</button>
+    <div class="micon">${e.icon}</div>
+    <div class="myear">${e.year} · ${e.tag}</div>
+    <h2>${e.title}</h2>
+    <p class="lead">${e.lead}</p>
+    <h4>Milestones</h4>
+    <ul>${e.points.map(p=>`<li>${p}</li>`).join('')}</ul>
+    <div class="edu"><strong>${e.edu[0]}</strong><span>${e.edu[1]}</span></div>
+  `;
+  overlay.classList.add('show');
+  modal.querySelector('.close').onclick=closeModal;
+}
+function closeModal(){overlay.classList.remove('show')}
+scroller.addEventListener('click',ev=>{
+  const c=ev.target.closest('.card');
+  if(c) openModal(+c.dataset.i);
+});
+overlay.addEventListener('click',ev=>{if(ev.target===overlay)closeModal()});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeModal()});
+
+// progress bar tracks horizontal scroll
+const prog=document.getElementById('prog');
+scroller.addEventListener('scroll',()=>{
+  const max=scroller.scrollWidth-scroller.clientWidth;
+  prog.style.width=(max>0?(scroller.scrollLeft/max*100):0)+'%';
+});
+</script>
+</body>
+</html>
