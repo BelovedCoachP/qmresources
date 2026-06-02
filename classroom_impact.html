@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What This Means for Your Classroom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d1b2a;
+    --paper:#f4ece1;
+    --paper-2:#ece0cf;
+    --signal:#ff5a36;
+    --signal-2:#ffb627;
+    --teal:#1b9aaa;
+    --deep:#13315c;
+    --violet:#6a4c93;
+    --line:rgba(13,27,42,.14);
+    --card:#fffaf2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);
+    background-image:
+      radial-gradient(circle at 14% 12%, rgba(27,154,170,.10), transparent 40%),
+      radial-gradient(circle at 86% 14%, rgba(255,90,54,.10), transparent 38%),
+      radial-gradient(circle at 50% 100%, rgba(106,76,147,.07), transparent 50%);
+    min-height:100vh;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 26px 70px}
+
+  header{text-align:center;margin-bottom:8px}
+  .kicker{
+    font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.4em;
+    font-size:.7rem;color:var(--teal);margin-bottom:16px;animation:fadeUp .6s both;
+  }
+  h1{
+    font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2rem,5vw,3.5rem);
+    line-height:.98;letter-spacing:-.02em;animation:fadeUp .6s .08s both;
+  }
+  h1 .em{font-style:italic;color:var(--signal)}
+  .intro{
+    max-width:660px;margin:18px auto 0;font-size:1.04rem;font-weight:300;
+    line-height:1.55;color:rgba(13,27,42,.75);animation:fadeUp .6s .16s both;
+  }
+
+  /* capability strip */
+  .caps{
+    display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:34px auto 8px;
+    animation:fadeUp .6s .24s both;
+  }
+  .cap{
+    display:flex;align-items:center;gap:8px;background:var(--card);
+    border:2px solid var(--ink);border-radius:30px;padding:8px 16px;font-size:.84rem;
+    font-weight:500;box-shadow:3px 3px 0 var(--ink);transition:.2s;
+  }
+  .cap:hover{transform:translateY(-3px);box-shadow:3px 6px 0 var(--signal)}
+  .cap .ce{font-size:1.1rem}
+
+  .divider{
+    display:flex;align-items:center;gap:16px;margin:46px 0 30px;
+  }
+  .divider::before,.divider::after{content:"";flex:1;height:2px;background:var(--line)}
+  .divider span{
+    font-family:'Space Mono',monospace;font-size:.74rem;text-transform:uppercase;
+    letter-spacing:.18em;color:var(--deep);
+  }
+
+  /* application cards */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .app{
+    background:var(--card);border:2px solid var(--ink);border-radius:18px;
+    padding:26px 24px;box-shadow:6px 7px 0 var(--ink);position:relative;
+    transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;
+    overflow:hidden;
+  }
+  .app::before{
+    content:"";position:absolute;top:0;left:0;width:100%;height:6px;
+    background:var(--accent);
+  }
+  .app:hover{transform:translateY(-6px);box-shadow:9px 13px 0 var(--accent)}
+  .app .num{
+    font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);
+    font-weight:700;letter-spacing:.1em;
+  }
+  .app .ico{font-size:2rem;margin:6px 0 12px;display:block}
+  .app h3{
+    font-family:'Fraunces',serif;font-weight:600;font-size:1.4rem;line-height:1.05;
+    letter-spacing:-.01em;margin-bottom:10px;
+  }
+  .app p{font-size:.94rem;font-weight:300;line-height:1.5;color:rgba(13,27,42,.8);margin-bottom:14px}
+  .app .try{
+    font-family:'Space Mono',monospace;font-size:.78rem;line-height:1.45;
+    background:rgba(13,27,42,.05);border-left:3px solid var(--accent);
+    padding:10px 12px;border-radius:0 8px 8px 0;color:var(--deep);
+  }
+  .app .try b{font-weight:700;display:block;margin-bottom:3px;font-size:.66rem;
+    text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+
+  .app.a1{--accent:var(--teal)}
+  .app.a2{--accent:var(--signal)}
+  .app.a3{--accent:var(--violet)}
+  .app.a4{--accent:var(--signal-2)}
+
+  /* payoff band */
+  .payoff{
+    margin-top:44px;background:linear-gradient(135deg,var(--deep),#0d1b2a);
+    border-radius:20px;padding:38px 34px;color:var(--paper);position:relative;
+    overflow:hidden;
+  }
+  .payoff::before{
+    content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;
+    background:radial-gradient(circle,rgba(255,90,54,.4),transparent 70%);
+  }
+  .payoff h2{
+    font-family:'Fraunces',serif;font-weight:900;font-size:1.7rem;margin-bottom:18px;
+    letter-spacing:-.01em;position:relative;
+  }
+  .payoff h2 .em{color:var(--signal-2);font-style:italic}
+  .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 28px;position:relative}
+  .pgrid div{display:flex;gap:10px;font-size:.94rem;font-weight:300;line-height:1.4}
+  .pgrid .b{color:var(--signal-2);font-weight:700;flex-shrink:0}
+  .takeaway{
+    margin-top:24px;font-family:'Fraunces',serif;font-style:italic;font-size:1.12rem;
+    line-height:1.4;position:relative;color:#fff;border-top:1px solid rgba(244,236,225,.2);
+    padding-top:18px;
+  }
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+  @media(max-width:720px){
+    .grid{grid-template-columns:1fr}
+    .pgrid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">From Capability to Classroom</div>
+    <h1>What This Means for <span class="em">Your Classroom</span></h1>
+    <p class="intro">Multimodal, reasoning, agentic AI is impressive on paper. Here's the part that matters: how those capabilities translate into real instructional work you can do this week.</p>
+  </header>
+
+  <div class="caps">
+    <div class="cap"><span class="ce">✍️</span> Write &amp; summarize</div>
+    <div class="cap"><span class="ce">🖼️</span> Generate images</div>
+    <div class="cap"><span class="ce">🎧</span> Compose &amp; process audio</div>
+    <div class="cap"><span class="ce">💻</span> Write code</div>
+    <div class="cap"><span class="ce">🎯</span> Personalize learning</div>
+    <div class="cap"><span class="ce">📊</span> Analyze data</div>
+  </div>
+
+  <div class="divider"><span>Four ways educators put this to work</span></div>
+
+  <div class="grid">
+    <div class="app a1">
+      <div class="num">01 · MULTIMODAL INPUT</div>
+      <span class="ico">🔍</span>
+      <h3>Give feedback on more than text</h3>
+      <p>Because today's models read images and audio, you can hand them a student-submitted diagram, a photo of handwritten work, or a recorded presentation and get useful, specific feedback.</p>
+      <div class="try"><b>Try this</b>Upload a photo of a student's lab sketch and ask for three clarifying questions you could pose to deepen their thinking.</div>
+    </div>
+
+    <div class="app a2">
+      <div class="num">02 · AGENTIC WORKFLOWS</div>
+      <span class="ico">⚙️</span>
+      <h3>Automate the repetitive build work</h3>
+      <p>Agentic AI plans and completes multi-step tasks, so it can generate quiz variations, reformat materials across templates, or draft a full rubric from your outcomes, while you review rather than build.</p>
+      <div class="try"><b>Try this</b>Ask AI to create three versions of a 10-question quiz at different difficulty levels, then check alignment to your objectives.</div>
+    </div>
+
+    <div class="app a3">
+      <div class="num">03 · ACCESSIBILITY &amp; DIFFERENTIATION</div>
+      <span class="ico">♿</span>
+      <h3>Adapt content for every learner</h3>
+      <p>One source document can become many: a different reading level, a translated version, a plain-language summary, or an alternative format, supporting diverse learners without rebuilding from scratch.</p>
+      <div class="try"><b>Try this</b>Paste a dense reading and ask for a version at a 9th-grade reading level plus a one-paragraph plain-language summary.</div>
+    </div>
+
+    <div class="app a4">
+      <div class="num">04 · DEEP RESEARCH</div>
+      <span class="ico">📚</span>
+      <h3>Search, synthesize, and save hours</h3>
+      <p>Research-capable models can search many sources, pull out what's relevant, and synthesize a summary in minutes, giving you a strong, citable starting point for content you'll then verify and shape.</p>
+      <div class="try"><b>Try this</b>Ask for a synthesis of current best practices on a course topic, with sources listed, then fact-check before using.</div>
+    </div>
+  </div>
+
+  <div class="payoff">
+    <h2>The bigger <span class="em">payoff</span> for teaching</h2>
+    <div class="pgrid">
+      <div><span class="b">→</span> More intuitive interactions for both educators and students</div>
+      <div><span class="b">→</span> Rich multimedia learning materials from simple prompts</div>
+      <div><span class="b">→</span> Detailed, constructive feedback at assessment time</div>
+      <div><span class="b">→</span> Differentiated instruction through personalized content</div>
+    </div>
+    <p class="takeaway">The capability is the easy part. Your judgment, deciding what's worth making, checking it for quality, and aligning it to standards, is what turns a clever tool into good teaching.</p>
+  </div>
+
+</div>
+</body>
+</html>
