@@ -415,7 +415,7 @@
                 <div class="detail-icon" id="detailIcon" style="background: linear-gradient(135deg, var(--chatgpt-color), #0d8a6a);">💬</div>
                 <div>
                     <div class="detail-title" id="detailTitle">ChatGPT</div>
-                    <div class="detail-subtitle" id="detailSubtitle">by OpenAI • GPT-5</div>
+                    <div class="detail-subtitle" id="detailSubtitle">by OpenAI • GPT-5.5</div>
                 </div>
             </div>
 
@@ -452,8 +452,8 @@
             <div class="detail-section">
                 <div class="section-title">Limitations</div>
                 <ul class="best-for-list" id="limitationsList">
-                    <li><span style="color: #f59e0b;">⚠</span> Some users find GPT-5's tone less warm than GPT-4o</li>
-                    <li><span style="color: #f59e0b;">⚠</span> Free tier has usage limits</li>
+                    <li><span style="color: #f59e0b;">⚠</span> Most advanced reasoning modes are reserved for paid tiers</li>
+                    <li><span style="color: #f59e0b;">⚠</span> Free tier has tighter usage limits during peak times</li>
                 </ul>
             </div>
 
@@ -493,7 +493,7 @@
         </div>
 
         <footer class="footer">
-            <p>Interactive Resource for Higher Education Faculty &amp; Instructional Designers | Updated March 2026</p>
+            <p>Interactive Resource for Higher Education Faculty &amp; Instructional Designers | Updated June 2026</p>
         </footer>
     </div>
 
@@ -506,7 +506,7 @@
             chatgpt: {
                 icon: '💬',
                 name: 'ChatGPT',
-                subtitle: 'by OpenAI • GPT-5',
+                subtitle: 'by OpenAI • GPT-5.5',
                 color: '#10a37f',
                 bestFor: [
                     'Create diverse content types quickly',
@@ -518,15 +518,15 @@
                 features: ['Custom GPTs', 'Image Generation (GPT Image 1)', 'Advanced Voice Mode', 'File Analysis (up to 20 files)', 'Web Browsing', 'Built-in Adaptive Reasoning'],
                 pricing: { free: 'Free tier available', paid: 'Plus: $20/month' },
                 limitations: [
-                    'Some users prefer GPT-4o\'s warmer, more personal tone',
-                    'Free tier has usage limits during peak times'
+                    'Most advanced reasoning modes are reserved for paid tiers',
+                    'Free tier has tighter usage limits during peak times'
                 ],
-                eduTip: 'GPT-5 now applies reasoning automatically when beneficial, so you do not need to prompt it specially. Use Custom GPTs to create discipline-specific assistants that follow your exact guidelines and rubric criteria — and with GPT-5 powering them, they are significantly more accurate and less likely to hallucinate.'
+                eduTip: 'GPT-5.5 applies reasoning automatically when a task benefits from it, so you do not need to prompt it specially. Use Custom GPTs to create discipline-specific assistants that follow your exact guidelines and rubric criteria — and with GPT-5.5 powering them, they are significantly more accurate and less likely to hallucinate.'
             },
             gemini: {
                 icon: '✨',
                 name: 'Gemini',
-                subtitle: 'by Google • Gemini 3 Pro',
+                subtitle: 'by Google • Gemini 3.1 Pro',
                 color: '#4285f4',
                 bestFor: [
                     'Integrate AI directly into Google Docs, Sheets, Slides, and Forms',
@@ -536,17 +536,17 @@
                     'Reach students already in Google Classroom workflows'
                 ],
                 features: ['Google Workspace Integration', 'Gemini in Classroom (free)', 'Audio Lessons & Video Overviews', 'NotebookLM Integration', 'Multimodal (text, image, audio, video)', 'Deep Research with citations'],
-                pricing: { free: 'Free with Google account (Gemini 3 Flash)', paid: 'Google AI Pro: $19.99/month (Gemini 3 Pro)' },
+                pricing: { free: 'Free with Google account (Gemini 3.1 Flash)', paid: 'Google AI Pro: $19.99/month (Gemini 3.1 Pro)' },
                 limitations: [
                     'Best features require Google ecosystem buy-in',
-                    'Full Gemini 3 Pro access requires paid plan or Education Plus license'
+                    'Full Gemini 3.1 Pro access requires paid plan or Education Plus license'
                 ],
-                eduTip: 'Gemini for Education now provides free access to Gemini 3 Pro for qualifying institutions, plus new Audio Lessons that generate podcast-style content customizable by grade level and learning objectives. NotebookLM notebooks can now be added directly as sources in Gemini for deeper, grounded conversations with your course materials.'
+                eduTip: 'Gemini for Education now provides free access to Gemini 3.1 Pro for qualifying institutions, plus new Audio Lessons that generate podcast-style content customizable by grade level and learning objectives. NotebookLM notebooks can now be added directly as sources in Gemini for deeper, grounded conversations with your course materials.'
             },
             claude: {
                 icon: '🎯',
                 name: 'Claude',
-                subtitle: 'by Anthropic • Claude Opus 4.6 / Sonnet 4.6',
+                subtitle: 'by Anthropic • Claude Opus 4.8 / Sonnet 4.6',
                 color: '#d97706',
                 bestFor: [
                     'Analyze very lengthy documents (1M token context window)',
@@ -575,7 +575,7 @@
                     'Compare multiple AI models\' answers on a topic (Model Council)',
                     'Stay current on rapidly evolving topics and fields'
                 ],
-                features: ['Real-time Citations', 'Deep Research Mode', 'Model Council (compare multiple AIs)', 'Multiple Model Choice (GPT-5.4, Claude 4.6, Gemini 3.1 Pro)', 'Quizzes & Flashcards (iOS)', 'Pro Search (multi-step reasoning)'],
+                features: ['Real-time Citations', 'Deep Research Mode', 'Model Council (compare multiple AIs)', 'Multiple Model Choice (GPT-5.5, Claude Opus 4.8, Gemini 3.1 Pro)', 'Quizzes & Flashcards (iOS)', 'Pro Search (multi-step reasoning)'],
                 pricing: { free: 'Free tier available', paid: 'Pro: $20/month' },
                 limitations: [
                     'Less suited for creative content generation',
@@ -586,7 +586,7 @@
             copilot: {
                 icon: '🪟',
                 name: 'Copilot',
-                subtitle: 'by Microsoft • GPT-4 Powered',
+                subtitle: 'by Microsoft • GPT-5 & Claude models',
                 color: '#0078d4',
                 bestFor: [
                     'Draft and edit directly in Word, PowerPoint, Excel, and Outlook',
@@ -596,12 +596,12 @@
                     'Work within existing Microsoft 365 institutional workflows'
                 ],
                 features: ['Microsoft 365 Integration', 'Word/Excel/PowerPoint Agents', 'Outlook Inbox & Calendar Awareness', 'Teams Meeting Summaries', 'Copilot Chat (free for M365 users)', 'Enterprise Data Protection'],
-                pricing: { free: 'Copilot Chat free with M365 subscription', paid: 'Copilot Business: $21/user/month (add-on)' },
+                pricing: { free: 'Copilot Chat free with M365 subscription', paid: 'Microsoft 365 Copilot: $30/user/month (add-on)' },
                 limitations: [
                     'Full in-app AI features require paid Copilot add-on license',
                     'Less customizable than ChatGPT for non-Microsoft workflows'
                 ],
-                eduTip: 'If your institution uses Microsoft 365, Copilot Chat is already available to you at no extra cost with inbox and calendar awareness. For deeper integration, the Copilot add-on now includes Word, Excel, and PowerPoint agents that let you work iteratively with AI directly inside your documents — great for drafting course materials, analyzing grade data in Excel, or building out slide decks from an outline.'
+                eduTip: 'If your institution uses Microsoft 365, Copilot Chat is already available to you at no extra cost with inbox and calendar awareness. Copilot now runs on the latest GPT-5-series models, and Copilot in Word even lets you switch to a Claude model when drafting. For deeper integration, the Copilot add-on includes Word, Excel, and PowerPoint agents that let you work iteratively with AI directly inside your documents — great for drafting course materials, analyzing grade data in Excel, or building out slide decks from an outline.'
             }
         };
 
