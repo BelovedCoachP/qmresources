@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Using AI Without Compromising Student Privacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d1b2a;
+    --paper:#f4ece1;
+    --paper-2:#ece0cf;
+    --signal:#ff5a36;
+    --signal-2:#ffb627;
+    --teal:#1b9aaa;
+    --deep:#13315c;
+    --violet:#6a4c93;
+    --go:#2a9d5c;
+    --stop:#d6483b;
+    --line:rgba(13,27,42,.14);
+    --card:#fffaf2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);
+    background-image:
+      radial-gradient(circle at 12% 12%, rgba(27,154,170,.10), transparent 40%),
+      radial-gradient(circle at 88% 16%, rgba(255,90,54,.09), transparent 38%),
+      radial-gradient(circle at 50% 100%, rgba(106,76,147,.07), transparent 50%);
+    min-height:100vh;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 26px 70px}
+
+  header{text-align:center;margin-bottom:6px}
+  .kicker{
+    font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.4em;
+    font-size:.7rem;color:var(--teal);margin-bottom:16px;animation:fadeUp .6s both;
+  }
+  h1{
+    font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2rem,5vw,3.4rem);
+    line-height:.98;letter-spacing:-.02em;animation:fadeUp .6s .08s both;
+  }
+  h1 .em{font-style:italic;color:var(--signal)}
+  .intro{
+    max-width:680px;margin:18px auto 0;font-size:1.04rem;font-weight:300;
+    line-height:1.55;color:rgba(13,27,42,.78);animation:fadeUp .6s .16s both;
+  }
+
+  /* golden rule banner */
+  .rule{
+    margin:34px auto 0;max-width:760px;background:var(--ink);color:var(--paper);
+    border-radius:18px;padding:24px 28px;display:flex;gap:18px;align-items:center;
+    box-shadow:7px 8px 0 var(--signal);animation:fadeUp .6s .24s both;
+  }
+  .rule .lock{font-size:2.4rem;flex-shrink:0}
+  .rule p{font-size:1.02rem;font-weight:300;line-height:1.45}
+  .rule b{font-family:'Fraunces',serif;font-weight:600;color:var(--signal-2)}
+
+  .divider{display:flex;align-items:center;gap:16px;margin:48px 0 26px}
+  .divider::before,.divider::after{content:"";flex:1;height:2px;background:var(--line)}
+  .divider span{
+    font-family:'Space Mono',monospace;font-size:.74rem;text-transform:uppercase;
+    letter-spacing:.16em;color:var(--deep);
+  }
+
+  /* two columns */
+  .sort{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .col{border:2px solid var(--ink);border-radius:18px;overflow:hidden;background:var(--card);box-shadow:6px 7px 0 var(--ink)}
+  .col .head{
+    padding:16px 22px;display:flex;align-items:center;gap:12px;
+    font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem;color:#fff;
+  }
+  .col.green .head{background:var(--go)}
+  .col.red .head{background:var(--stop)}
+  .col .head .mark{font-size:1.5rem}
+  .col ul{list-style:none;padding:18px 22px 22px}
+  .col li{
+    display:flex;gap:12px;padding:11px 0;font-size:.94rem;font-weight:300;
+    line-height:1.42;border-bottom:1px solid var(--line);
+  }
+  .col li:last-child{border-bottom:none}
+  .col li .ic{flex-shrink:0;font-size:1.1rem;margin-top:1px}
+  .col li b{font-weight:600}
+  .col.green li .ic{color:var(--go)}
+  .col.red li .ic{color:var(--stop)}
+
+  /* walkthrough */
+  .walk{
+    margin-top:48px;background:var(--card);border:2px solid var(--ink);
+    border-radius:20px;padding:34px 30px;box-shadow:6px 7px 0 var(--teal);
+  }
+  .walk .wtag{
+    font-family:'Space Mono',monospace;font-size:.7rem;text-transform:uppercase;
+    letter-spacing:.14em;color:var(--teal);font-weight:700;
+  }
+  .walk h2{
+    font-family:'Fraunces',serif;font-weight:900;font-size:1.8rem;line-height:1.02;
+    margin:6px 0 8px;letter-spacing:-.02em;
+  }
+  .walk .wlede{font-size:.98rem;font-weight:300;line-height:1.5;color:rgba(13,27,42,.8);margin-bottom:26px;max-width:680px}
+
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+  .step{position:relative;padding:0 14px;cursor:pointer}
+  .step .dot{
+    width:46px;height:46px;border-radius:50%;background:var(--paper);
+    border:3px solid var(--ink);display:grid;place-items:center;
+    font-family:'Space Mono',monospace;font-weight:700;font-size:1.1rem;
+    margin:0 auto 14px;transition:.25s;position:relative;z-index:2;
+  }
+  .step.active .dot{background:var(--signal);color:#fff;border-color:var(--signal);transform:scale(1.12)}
+  .step.done .dot{background:var(--go);color:#fff;border-color:var(--go)}
+  .steps::before{
+    content:"";position:absolute;top:23px;left:12%;right:12%;height:3px;
+    background:var(--line);z-index:0;
+  }
+  .step .slabel{
+    text-align:center;font-size:.82rem;font-weight:600;line-height:1.2;
+  }
+  .step .ph{display:block;font-family:'Space Mono',monospace;font-size:.6rem;
+    color:var(--teal);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+
+  .stage{
+    margin-top:26px;background:rgba(13,27,42,.04);border:1px dashed var(--ink);
+    border-radius:14px;padding:24px 26px;min-height:150px;
+  }
+  .stage h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;margin-bottom:8px}
+  .stage p{font-size:.96rem;font-weight:300;line-height:1.5;color:rgba(13,27,42,.85);margin-bottom:14px}
+  .stage .demo{
+    font-family:'Space Mono',monospace;font-size:.8rem;line-height:1.5;
+    background:var(--ink);color:#e8f0ee;border-radius:10px;padding:14px 16px;
+    white-space:pre-wrap;overflow-x:auto;
+  }
+  .stage .demo .c{color:var(--signal-2)}
+  .stage .demo .g{color:#7ee0a0}
+  .stage .demo .x{color:#ff8a7a;text-decoration:line-through}
+  .navbtns{display:flex;gap:10px;margin-top:18px}
+  .navbtns button{
+    font-family:'Space Mono',monospace;font-size:.78rem;font-weight:700;
+    border:2px solid var(--ink);background:var(--card);border-radius:30px;
+    padding:9px 20px;cursor:pointer;transition:.2s;
+  }
+  .navbtns button:hover:not(:disabled){background:var(--signal);color:#fff;border-color:var(--signal)}
+  .navbtns button:disabled{opacity:.35;cursor:not-allowed}
+
+  .closer{
+    margin-top:42px;text-align:center;font-family:'Fraunces',serif;font-style:italic;
+    font-size:1.18rem;line-height:1.45;max-width:720px;margin-left:auto;margin-right:auto;
+    color:var(--deep);
+  }
+  .closer b{color:var(--signal);font-style:normal;font-weight:600}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+  @media(max-width:720px){
+    .sort{grid-template-columns:1fr}
+    .steps{grid-template-columns:repeat(4,1fr);gap:0}
+    .step{padding:0 4px}
+    .step .slabel{font-size:.66rem}
+    .step .dot{width:38px;height:38px;font-size:.95rem}
+    .rule{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Responsible Implementation</div>
+    <h1>Using AI Without Compromising <span class="em">Student Privacy</span></h1>
+    <p class="intro">AI can be a powerful analysis partner, but student data has to stay protected. The line is simple, and once you know where it sits, a whole set of safe, high-value uses opens up.</p>
+  </header>
+
+  <div class="rule">
+    <span class="lock">🔒</span>
+    <p>The golden rule: <b>never put personally identifiable student information into an AI tool.</b> No names, no student IDs, no email addresses, nothing traceable to an individual. De-identify first, then analyze.</p>
+  </div>
+
+  <div class="divider"><span>Sort it out: what's safe, what's off-limits</span></div>
+
+  <div class="sort">
+    <div class="col green">
+      <div class="head"><span class="mark">✓</span> Generally Safe</div>
+      <ul>
+        <li><span class="ic">📸</span><span>Photos or screenshots of student work <b>with names and identifiers cropped or covered</b></span></li>
+        <li><span class="ic">📊</span><span>Grade and assignment <b>patterns</b> after names and IDs are stripped and replaced with labels like Student A, B, C</span></li>
+        <li><span class="ic">📝</span><span>Your own materials: rubrics, prompts, lesson plans, assignment instructions, syllabus language</span></li>
+        <li><span class="ic">🧩</span><span>De-identified, aggregated trends: "60% missed question 4," not "Jordan missed question 4"</span></li>
+      </ul>
+    </div>
+    <div class="col red">
+      <div class="head"><span class="mark">✕</span> Off-Limits</div>
+      <ul>
+        <li><span class="ic">🪪</span><span>Anything with a <b>student name, ID number, or email</b> still attached</span></li>
+        <li><span class="ic">📂</span><span>Uploading a raw gradebook export straight from your system without cleaning it first</span></li>
+        <li><span class="ic">🖼️</span><span>Screenshots where a name, photo, or login is visible in a corner or header</span></li>
+        <li><span class="ic">⚠️</span><span>Small-class data so unique it could re-identify someone even without a name attached</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="walk">
+    <div class="wtag">Worked Example · Do It Right</div>
+    <h2>Gradebook Gap Analysis</h2>
+    <p class="wlede">One of the highest-value safe uses: let AI spot patterns across grades and missing work so you can target support, without ever exposing who's who. Click through the four steps.</p>
+
+    <div class="steps" id="steps">
+      <div class="step active" data-s="0">
+        <div class="dot">1</div>
+        <div class="slabel">Export<span class="ph">your data</span></div>
+      </div>
+      <div class="step" data-s="1">
+        <div class="dot">2</div>
+        <div class="slabel">Strip identifiers<span class="ph">de-identify</span></div>
+      </div>
+      <div class="step" data-s="2">
+        <div class="dot">3</div>
+        <div class="slabel">Prompt the AI<span class="ph">analyze</span></div>
+      </div>
+      <div class="step" data-s="3">
+        <div class="dot">4</div>
+        <div class="slabel">Act on it<span class="ph">your call</span></div>
+      </div>
+    </div>
+
+    <div class="stage" id="stage"></div>
+
+    <div class="navbtns">
+      <button id="prev" disabled>← Back</button>
+      <button id="next">Next step →</button>
+    </div>
+  </div>
+
+  <p class="closer">The pattern is always the same: <b>clean it, then analyze it.</b> AI sees the trends; you keep the names. That's how you get the insight without ever handing over what doesn't belong to a machine.</p>
+
+</div>
+
+<script>
+const stages = [
+  {
+    h:"Step 1 — Export your gradebook to a spreadsheet",
+    p:"Whatever system you use, export grades to a spreadsheet file. Work on the copy, never the live record. At this point it still contains names, so it is NOT ready for AI yet.",
+    demo:`Name            HW1  HW2  Quiz1  Project
+<span class="x">Jordan Reyes</span>     88   --    72     --
+<span class="x">Sam Okafor</span>       91   84    90     86
+<span class="x">Alex Whitman</span>     65   --    --     70`
+  },
+  {
+    h:"Step 2 — Strip every identifier",
+    p:"Delete the name column and anything else that points to a person (ID, email). Replace names with neutral labels: Student A, B, C. Now the rows are about performance, not people. Double-check headers and stray cells too.",
+    demo:`Student   HW1  HW2  Quiz1  Project
+<span class="g">Student A</span>   88   --    72     --
+<span class="g">Student B</span>   91   84    90     86
+<span class="g">Student C</span>   65   --    --     70`
+  },
+  {
+    h:"Step 3 — Ask the AI for a gap analysis",
+    p:"Paste the de-identified data and ask for patterns: missing work, at-risk performance, and where to focus support. Notice the prompt never asks 'who' — only 'what' and 'where.'",
+    demo:`<span class="c">PROMPT:</span> Here is de-identified gradebook data for
+one class. Identify: (1) which assignments have the
+most missing submissions, (2) which students (by
+label) show an at-risk pattern, and (3) two
+concrete interventions I could offer the whole class.
+
+<span class="c">AI:</span> Quiz1 and Project have the most gaps. Student C
+shows the highest risk: two missing items plus a low
+HW1. Consider a reflection re-do window and a short
+checkpoint before the next project milestone.`
+  },
+  {
+    h:"Step 4 — Bring it back to your students",
+    p:"You now have a class-level gap analysis and intervention ideas. You re-attach the names privately, on your side, and act: a check-in with Student C (whom only you can identify), a missing-work nudge, a revised due date. The judgment stays with you.",
+    demo:`<span class="g">You know:</span> Student C = the learner you'll quietly
+check in with this week.
+
+<span class="g">AI never knew:</span> any real name, ID, or identity.
+
+Result: targeted support, full privacy. ✓`
+  }
+];
+
+let cur = 0;
+const stageEl = document.getElementById('stage');
+const steps = [...document.querySelectorAll('.step')];
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+
+function render(){
+  const s = stages[cur];
+  stageEl.innerHTML = `<h3>${s.h}</h3><p>${s.p}</p><div class="demo">${s.demo}</div>`;
+  steps.forEach((st,i)=>{
+    st.classList.toggle('active', i===cur);
+    st.classList.toggle('done', i<cur);
+  });
+  prev.disabled = cur===0;
+  next.disabled = cur===stages.length-1;
+  next.textContent = cur===stages.length-1 ? 'Done ✓' : 'Next step →';
+}
+prev.onclick=()=>{if(cur>0){cur--;render()}};
+next.onclick=()=>{if(cur<stages.length-1){cur++;render()}};
+steps.forEach(st=>st.onclick=()=>{cur=+st.dataset.s;render()});
+render();
+</script>
+</body>
+</html>
