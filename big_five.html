@@ -415,7 +415,7 @@
                 <div class="detail-icon" id="detailIcon" style="background: linear-gradient(135deg, var(--chatgpt-color), #0d8a6a);">💬</div>
                 <div>
                     <div class="detail-title" id="detailTitle">ChatGPT</div>
-                    <div class="detail-subtitle" id="detailSubtitle">by OpenAI • GPT-5.5</div>
+                    <div class="detail-subtitle" id="detailSubtitle">by OpenAI • GPT-5.6</div>
                 </div>
             </div>
 
@@ -493,7 +493,7 @@
         </div>
 
         <footer class="footer">
-            <p>Interactive Resource for Higher Education Faculty &amp; Instructional Designers | Updated June 2026</p>
+            <p>Interactive Resource for Higher Education Faculty &amp; Instructional Designers | Updated July 2026</p>
         </footer>
     </div>
 
@@ -506,7 +506,7 @@
             chatgpt: {
                 icon: '💬',
                 name: 'ChatGPT',
-                subtitle: 'by OpenAI • GPT-5.5',
+                subtitle: 'by OpenAI • GPT-5.6',
                 color: '#10a37f',
                 bestFor: [
                     'Create diverse content types quickly',
@@ -516,12 +516,12 @@
                     'Build custom assistants for specific disciplines'
                 ],
                 features: ['Custom GPTs', 'Image Generation (GPT Image 1)', 'Advanced Voice Mode', 'File Analysis (up to 20 files)', 'Web Browsing', 'Built-in Adaptive Reasoning'],
-                pricing: { free: 'Free tier available', paid: 'Plus: $20/month' },
+                pricing: { free: 'Free tier available (GPT-5.6 Terra)', paid: 'Plus: $20/month' },
                 limitations: [
-                    'Most advanced reasoning modes are reserved for paid tiers',
+                    'The flagship Sol tier and its deepest reasoning modes are reserved for paid plans',
                     'Free tier has tighter usage limits during peak times'
                 ],
-                eduTip: 'GPT-5.5 applies reasoning automatically when a task benefits from it, so you do not need to prompt it specially. Use Custom GPTs to create discipline-specific assistants that follow your exact guidelines and rubric criteria — and with GPT-5.5 powering them, they are significantly more accurate and less likely to hallucinate.'
+                eduTip: 'GPT-5.6 (released July 2026) comes in three tiers: Sol is the flagship for complex work, Terra is the balanced everyday model that free users get, and Luna is the fastest. Reasoning is applied automatically when a task benefits from it, so you do not need to prompt for it. Use Custom GPTs to create discipline-specific assistants that follow your exact guidelines and rubric criteria.'
             },
             gemini: {
                 icon: '✨',
@@ -536,7 +536,7 @@
                     'Reach students already in Google Classroom workflows'
                 ],
                 features: ['Google Workspace Integration', 'Gemini in Classroom (free)', 'Audio Lessons & Video Overviews', 'NotebookLM Integration', 'Multimodal (text, image, audio, video)', 'Deep Research with citations'],
-                pricing: { free: 'Free with Google account (Gemini 3.1 Flash)', paid: 'Google AI Pro: $19.99/month (Gemini 3.1 Pro)' },
+                pricing: { free: 'Free with Google account (Gemini 3.5 Flash)', paid: 'Google AI Pro: $19.99/month (Gemini 3.1 Pro)' },
                 limitations: [
                     'Best features require Google ecosystem buy-in',
                     'Full Gemini 3.1 Pro access requires paid plan or Education Plus license'
@@ -546,7 +546,7 @@
             claude: {
                 icon: '🎯',
                 name: 'Claude',
-                subtitle: 'by Anthropic • Claude Opus 4.8 / Sonnet 4.6',
+                subtitle: 'by Anthropic • Claude Fable 5 / Opus 4.8 / Sonnet 5',
                 color: '#d97706',
                 bestFor: [
                     'Analyze very lengthy documents (1M token context window)',
@@ -561,7 +561,7 @@
                     'No native image generation',
                     'Claude for Education platform requires institutional agreement'
                 ],
-                eduTip: 'Claude for Education (launched April 2025) gives institutions a FERPA-compliant platform with a unique "Learning Mode" that uses Socratic questioning rather than giving students direct answers — great for critical thinking. For your own course design work, use Claude Projects to upload your full syllabus, objectives, and past materials so Claude stays aligned to your course in every conversation.'
+                eduTip: 'Claude for Education gives institutions a FERPA-compliant platform with a unique "Learning Mode" that uses Socratic questioning rather than giving students direct answers — great for critical thinking. Sonnet 5 is now the default model on the free and Pro plans, with Fable 5 and Opus 4.8 available on paid plans for the heaviest reasoning work. For your own course design, use Claude Projects to upload your full syllabus, objectives, and past materials so Claude stays aligned to your course in every conversation.'
             },
             perplexity: {
                 icon: '🔍',
@@ -575,18 +575,18 @@
                     'Compare multiple AI models\' answers on a topic (Model Council)',
                     'Stay current on rapidly evolving topics and fields'
                 ],
-                features: ['Real-time Citations', 'Deep Research Mode', 'Model Council (compare multiple AIs)', 'Multiple Model Choice (GPT-5.5, Claude Opus 4.8, Gemini 3.1 Pro)', 'Quizzes & Flashcards (iOS)', 'Pro Search (multi-step reasoning)'],
-                pricing: { free: 'Free tier available', paid: 'Pro: $20/month' },
+                features: ['Real-time Citations', 'Deep Research Mode', 'Model Council (Max tier only)', 'Multiple Model Choice (GPT-5.6, Claude Opus 4.8, Gemini 3.1 Pro)', 'Quizzes & Flashcards (iOS)', 'Pro Search (multi-step reasoning)'],
+                pricing: { free: 'Free tier available', paid: 'Pro: $20/month • Max: $200/month' },
                 limitations: [
                     'Less suited for creative content generation',
-                    'Deep Research and Model Council require Pro subscription'
+                    'Deep Research requires Pro; Model Council is Max-only ($200/month)'
                 ],
-                eduTip: 'The new Model Council feature lets you run the same research question through multiple frontier AI models simultaneously and see where they agree or diverge — a powerful tool for modeling critical thinking and source triangulation for students. For your own research, Deep Research now achieves benchmark-leading accuracy, making it ideal for literature reviews during course development.'
+                eduTip: 'Model Council runs the same research question through three frontier models at once and shows where they agree or diverge — a powerful way to model critical thinking and source triangulation for students. Note that it is a Max-tier ($200/month) feature, not part of Pro, so check your budget before building an assignment around it. Deep Research is included with Pro and is ideal for literature reviews during course development. Students can get Perplexity Pro at a discount through Education Pro with SheerID verification.'
             },
             copilot: {
                 icon: '🪟',
                 name: 'Copilot',
-                subtitle: 'by Microsoft • GPT-5 & Claude models',
+                subtitle: 'by Microsoft • GPT-5.6 & Claude models',
                 color: '#0078d4',
                 bestFor: [
                     'Draft and edit directly in Word, PowerPoint, Excel, and Outlook',
@@ -601,7 +601,7 @@
                     'Full in-app AI features require paid Copilot add-on license',
                     'Less customizable than ChatGPT for non-Microsoft workflows'
                 ],
-                eduTip: 'If your institution uses Microsoft 365, Copilot Chat is already available to you at no extra cost with inbox and calendar awareness. Copilot now runs on the latest GPT-5-series models, and Copilot in Word even lets you switch to a Claude model when drafting. For deeper integration, the Copilot add-on includes Word, Excel, and PowerPoint agents that let you work iteratively with AI directly inside your documents — great for drafting course materials, analyzing grade data in Excel, or building out slide decks from an outline.'
+                eduTip: 'If your institution uses Microsoft 365, Copilot Chat is already available to you at no extra cost with inbox and calendar awareness. GPT-5.6 is now the preferred model in Microsoft 365 Copilot, and Copilot in Word even lets you switch to a Claude model when drafting. For deeper integration, the Copilot add-on includes Word, Excel, and PowerPoint agents that let you work iteratively with AI directly inside your documents — great for drafting course materials, analyzing grade data in Excel, or building out slide decks from an outline.'
             }
         };
 
